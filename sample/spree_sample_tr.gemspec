@@ -3,7 +3,7 @@ version = File.read(File.expand_path("../../SPREE_VERSION", __FILE__)).strip
 
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
-  s.name        = 'spree_sample'
+  s.name        = 'spree_sample_tr'
   s.version     = version
   s.summary     = 'Sample data (including images) for use with Spree.'
   s.description = 'Required dependency for Spree'
