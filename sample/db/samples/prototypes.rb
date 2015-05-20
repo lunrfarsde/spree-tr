@@ -1,15 +1,15 @@
 prototypes = [
   {
-    :name => "Shirt",
-    :properties => ["Manufacturer", "Brand", "Model", "Shirt Type", "Sleeve Type", "Material", "Fit", "Gender"]
+    :name => "Gömlek",
+    :properties => ["Üretici", "Marka", "Model", "Gömlek Tipi", "Kol Tipi", "Materyal", "Fit", "Cinsiyet"]
   },
   {
-    :name => "Bag",
-    :properties => ["Type", "Size", "Material"]
+    :name => "Çanta",
+    :properties => ["Tip", "Boyut", "Materyal"]
   },
   {
-    :name => "Mugs",
-    :properties => ["Size", "Type"]
+    :name => "Kupalar",
+    :properties => ["Boyut", "Tip"]
   }
 ]
 

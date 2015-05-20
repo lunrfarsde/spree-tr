@@ -1,6 +1,6 @@
 taxonomies = [
-  { name: "Categories" },
-  { name: "Brand" }
+  { name: "Kategoriler" },
+  { name: "Markalar" }
 ]
 
 taxonomies.each do |taxonomy_attrs|

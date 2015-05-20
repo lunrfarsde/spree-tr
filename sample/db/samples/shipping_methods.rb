@@ -1,53 +1,31 @@
 begin
-north_america = Spree::Zone.find_by_name!("North America")
+  turkey = Spree::Zone.find_by_name!("Turkey")
 rescue ActiveRecord::RecordNotFound
-  puts "Couldn't find 'North America' zone. Did you run `rake db:seed` first?"
+  puts "Couldn't find 'Turkey' zone. Did you run `rake db:seed` first?"
   puts "That task will set up the countries, states and zones required for Spree."
   exit
 end
 
-europe_vat = Spree::Zone.find_by_name!("EU_VAT")
-shipping_category = Spree::ShippingCategory.find_or_create_by!(name: 'Default')
+shipping_category = Spree::ShippingCategory.find_or_create_by!(name: 'Varsayılan')
 
 Spree::ShippingMethod.create!([
   {
-    :name => "UPS Ground (USD)",
-    :zones => [north_america],
-    :calculator => Spree::Calculator::Shipping::FlatRate.create!,
-    :shipping_categories => [shipping_category]
-  },
-  {
-    :name => "UPS Two Day (USD)",
-    :zones => [north_america],
-    :calculator => Spree::Calculator::Shipping::FlatRate.create!,
-    :shipping_categories => [shipping_category]
-  },
-  {
-    :name => "UPS One Day (USD)",
-    :zones => [north_america],
-    :calculator => Spree::Calculator::Shipping::FlatRate.create!,
-    :shipping_categories => [shipping_category]
-  },
-  {
     :name => "UPS Ground (EU)",
-    :zones => [europe_vat],
+    :zones => [turkey],
     :calculator => Spree::Calculator::Shipping::FlatRate.create!,
     :shipping_categories => [shipping_category]
   },
   {
     :name => "UPS Ground (EUR)",
-    :zones => [europe_vat],
+    :zones => [turkey],
     :calculator => Spree::Calculator::Shipping::FlatRate.create!,
     :shipping_categories => [shipping_category]
   }
 ])
 
 {
-  "UPS Ground (USD)" => [5, "USD"],
-  "UPS Ground (EU)" => [5, "USD"],
-  "UPS One Day (USD)" => [15, "USD"],
-  "UPS Two Day (USD)" => [10, "USD"],
-  "UPS Ground (EUR)" => [8, "EUR"]
+  "UPS Ground (EU)" => [5, "TRY"],
+  "UPS Ground (EUR)" => [8, "TRY"]
 }.each do |shipping_method_name, (price, currency)|
   shipping_method = Spree::ShippingMethod.find_by_name!(shipping_method_name)
   shipping_method.calculator.preferences = {
@@ -57,4 +35,3 @@ Spree::ShippingMethod.create!([
   shipping_method.calculator.save!
   shipping_method.save!
 end
-

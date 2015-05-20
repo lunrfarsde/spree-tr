@@ -1,7 +1,7 @@
 Spree::Sample.load_sample("option_types")
 
-size = Spree::OptionType.find_by_presentation!("Size")
-color = Spree::OptionType.find_by_presentation!("Color")
+size = Spree::OptionType.find_by_presentation!("Boyut")
+color = Spree::OptionType.find_by_presentation!("Renk")
 
 Spree::OptionValue.create!([
   {
@@ -30,19 +30,19 @@ Spree::OptionValue.create!([
   },
   {
     :name => "Red",
-    :presentation => "Red",
+    :presentation => "Kırmızı",
     :position => 1,
     :option_type => color,
   },
   {
     :name => "Green",
-    :presentation => "Green",
+    :presentation => "Yeşil",
     :position => 2,
     :option_type => color,
   },
   {
     :name => "Blue",
-    :presentation => "Blue",
+    :presentation => "Mavi",
     :position => 3,
     :option_type => color
   }

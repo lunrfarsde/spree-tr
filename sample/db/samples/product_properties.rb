@@ -1,112 +1,112 @@
 products =
-  { 
-    "Ruby on Rails Baseball Jersey" => 
-    { 
-      "Manufacturer" => "Wilson",
-      "Brand" => "Wannabe Sports",
+  {
+    "Ruby on Rails Beyzbol Forması" =>
+    {
+      "Üretici" => "Wilson",
+      "Marka" => "Wannabe Sports",
       "Model" => "JK1002",
-      "Shirt Type" => "Baseball Jersey",
-      "Sleeve Type" => "Long",
-      "Made from" => "100% cotton",
-      "Fit" => "Loose",
-      "Gender" => "Men's"
+      "Gömlek Tipi" => "Beyzbol Forması",
+      "Kol Tipi" => "Uzun",
+      "Yapıldığı Malzeme" => "100% pamuk",
+      "Fit" => "Geniş",
+      "Cinsiyet" => "Erkek"
     },
-    "Ruby on Rails Jr. Spaghetti" =>
+    "Ruby on Rails Jr. Spagetti" =>
     {
-      "Manufacturer" => "Jerseys",
-      "Brand" => "Resiliance",
+      "Üretici" => "Jerseys",
+      "Marka" => "Resiliance",
       "Model" => "TL174",
-      "Shirt Type" => "Jr. Spaghetti T",
-      "Sleeve Type" => "None",
-      "Made from" => "90% Cotton, 10% Nylon",
+      "Gömlek Tipi" => "Jr. Spaghetti T",
+      "Kol Tipi" => "Yok",
+      "Yapıldığı Malzeme" => "90% pamuk, 10% naylon",
       "Fit" => "Form",
-      "Gender" => "Women's"
+      "Cinsiyet" => "Kadın"
     },
-    "Ruby on Rails Ringer T-Shirt" =>
+    "Ruby on Rails Ringer Tişörtü" =>
     {
-      "Manufacturer" => "Jerseys",
-      "Brand" => "Conditioned",
+      "Üretici" => "Jerseys",
+      "Marka" => "Conditioned",
       "Model" => "TL9002",
-      "Shirt Type" => "Ringer T",
-      "Sleeve Type" => "Short",
-      "Made from" => "100% Vellum",
-      "Fit" => "Loose",
-      "Gender" => "Men's"
+      "Gömlek Tipi" => "Ringer T",
+      "Kol Tipi" => "Kısa",
+      "Yapıldığı Malzeme" => "100% Vellum",
+      "Fit" => "Geniş",
+      "Cinsiyet" => "Erkek"
     },
-    "Ruby on Rails Tote" =>
+    "Ruby on Rails Torbası" =>
     {
-      "Type" => "Tote",
-      "Size" => %Q{15" x 18" x 6"},
-      "Material" => "Canvas"
+      "Tip" => "Torba",
+      "Boyut" => %Q{15" x 18" x 6"},
+      "Materyal" => "Kanvas"
     },
-    "Ruby on Rails Bag" =>
+    "Ruby on Rails Çantası" =>
     {
-      "Type" => "Messenger",
-      "Size" => %Q{14 1/2" x 12" x 5"},
-      "Material" => "600 Denier Polyester"
+      "Tip" => "Messenger",
+      "Boyut" => %Q{14 1/2" x 12" x 5"},
+      "Materyal" => "600 Denier Polyester"
     },
-    "Ruby on Rails Mug" => 
+    "Ruby on Rails Kupası" =>
     {
-      "Type" => "Mug",
-      "Size" => %Q{4.5" tall, 3.25" dia.}
+      "Tip" => "Kupa",
+      "Boyut" => %Q{4.5 cm. uzunluk, 3.25 cm. çap}
     },
-    "Ruby on Rails Stein" =>
+    "Ruby on Rails Bira Bardağı" =>
     {
-      "Type" => "Stein",
-      "Size" => %Q{6.75" tall, 3.75" dia. base, 3" dia. rim}
+      "Tip" => "Stein",
+      "Boyut" => %Q{6.75 cm. uzunluk, 3.75 cm. çap taban, 3 cm. çap ağız}
     },
-    "Spree Stein" =>
+    "Spree Bira Bardağı" =>
     {
-      "Type" => "Stein",
-      "Size" => %Q{6.75" tall, 3.75" dia. base, 3" dia. rim}
+      "Tip" => "Stein",
+      "Boyut" => %Q{6.75 cm. uzunluk, 3.75 cm. çap taban, 3 cm. çap ağız}
     },
-    "Spree Mug" => 
+    "Spree Kupası" =>
     {
-      "Type" => "Mug",
-      "Size" => %Q{4.5" tall, 3.25" dia.}
+      "Tip" => "Kupa",
+      "Boyut" => %Q{4.5 cm. uzunluk, 3.25 cm. çap}
     },
-    "Spree Tote" => 
+    "Spree Torbası" =>
     {
-      "Type" => "Tote",
-      "Size" => %Q{15" x 18" x 6"}
+      "Tip" => "Torba",
+      "Boyut" => %Q{15" x 18" x 6"}
     },
-    "Spree Bag" => 
+    "Spree Çantası" =>
     {
-      "Type" => "Messenger",
-      "Size" => %Q{14 1/2" x 12" x 5"}
+      "Tip" => "Messenger",
+      "Boyut" => %Q{14 1/2" x 12" x 5"}
     },
-    "Spree Baseball Jersey" =>
+    "Spree Beyzbol Forması" =>
     {
-      "Manufacturer" => "Wilson",
-      "Brand" => "Wannabe Sports",
+      "Üretici" => "Wilson",
+      "Marka" => "Wannabe Sports",
       "Model" => "JK1002",
-      "Shirt Type" => "Baseball Jersey",
-      "Sleeve Type" => "Long",
-      "Made from" => "100% cotton",
-      "Fit" => "Loose",
-      "Gender" => "Men's"
+      "Gömlek Tipi" => "Beyzbol Forması",
+      "Kol Tipi" => "Uzun",
+      "Yapıldığı Malzeme" => "100% pamuk",
+      "Fit" => "Geniş",
+      "Cinsiyet" => "Erkek"
     },
-    "Spree Jr. Spaghetti" =>
+    "Spree Jr. Spagetti" =>
     {
-      "Manufacturer" => "Jerseys",
-      "Brand" => "Resiliance",
+      "Üretici" => "Jerseys",
+      "Marka" => "Resiliance",
       "Model" => "TL174",
-      "Shirt Type" => "Jr. Spaghetti T",
-      "Sleeve Type" => "None",
-      "Made from" => "90% Cotton, 10% Nylon",
+      "Gömlek Tipi" => "Jr. Spaghetti T",
+      "Kol Tipi" => "None",
+      "Yapıldığı Malzeme" => "90% pamuk, 10% naylon",
       "Fit" => "Form",
-      "Gender" => "Women's"
+      "Cinsiyet" => "Kadın"
     },
-    "Spree Ringer T-Shirt" =>
+    "Spree Ringer Tişörtü" =>
     {
-      "Manufacturer" => "Jerseys",
-      "Brand" => "Conditioned",
+      "Üretici" => "Jerseys",
+      "Marka" => "Conditioned",
       "Model" => "TL9002",
-      "Shirt Type" => "Ringer T",
-      "Sleeve Type" => "Short",
-      "Made from" => "100% Vellum",
-      "Fit" => "Loose",
-      "Gender" => "Men's"
+      "Gömlek Tipi" => "Ringer T",
+      "Kol Tipi" => "Kısa",
+      "Yapıldığı Malzeme" => "100% Vellum",
+      "Fit" => "Geniş",
+      "Cinsiyet" => "Erkek"
     },
   }
 

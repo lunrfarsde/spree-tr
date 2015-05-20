@@ -1,43 +1,44 @@
 Spree::Sample.load_sample("taxonomies")
 Spree::Sample.load_sample("products")
 
-categories = Spree::Taxonomy.find_by_name!("Categories")
-brands = Spree::Taxonomy.find_by_name!("Brand")
+categories = Spree::Taxonomy.find_by_name!("Kategoriler")
+brands = Spree::Taxonomy.find_by_name!("Markalar")
 
-products = { 
-  :ror_tote => "Ruby on Rails Tote",
-  :ror_bag => "Ruby on Rails Bag",
-  :ror_mug => "Ruby on Rails Mug",
-  :ror_stein => "Ruby on Rails Stein",
-  :ror_baseball_jersey => "Ruby on Rails Baseball Jersey",
-  :ror_jr_spaghetti => "Ruby on Rails Jr. Spaghetti",
-  :ror_ringer => "Ruby on Rails Ringer T-Shirt",
-  :spree_stein => "Spree Stein",
-  :spree_mug => "Spree Mug",
-  :spree_ringer => "Spree Ringer T-Shirt",
-  :spree_baseball_jersey =>  "Spree Baseball Jersey",
-  :spree_tote => "Spree Tote",
-  :spree_bag => "Spree Bag",
-  :spree_jr_spaghetti => "Spree Jr. Spaghetti",
-  :apache_baseball_jersey => "Apache Baseball Jersey",
-  :ruby_baseball_jersey => "Ruby Baseball Jersey",
+products = {
+  :ror_tote => "Ruby on Rails Torbası",
+  :ror_bag => "Ruby on Rails Çantası",
+  :ror_mug => "Ruby on Rails Kupası",
+  :ror_stein => "Ruby on Rails Bira Bardağı",
+  :ror_baseball_jersey => "Ruby on Rails Beyzbol Forması",
+  :ror_jr_spaghetti => "Ruby on Rails Jr. Spagetti",
+  :ror_ringer => "Ruby on Rails Ringer Tişörtü",
+  :spree_stein => "Spree Bira Bardağı",
+  :spree_mug => "Spree Kupası",
+  :spree_ringer => "Spree Ringer Tişörtü",
+  :spree_baseball_jersey =>  "Spree Beyzbol Forması",
+  :spree_tote => "Spree Torbası",
+  :spree_bag => "Spree Çantası",
+  :spree_jr_spaghetti => "Spree Jr. Spagetti",
+  :apache_baseball_jersey => "Apache Beyzbol Forması",
+  :ruby_baseball_jersey => "Ruby Beyzbol Forması",
 }
 
 
 products.each do |key, name|
+  puts name
   products[key] = Spree::Product.find_by_name!(name)
 end
 
 taxons = [
   {
-    :name => "Categories",
+    :name => "Kategoriler",
     :taxonomy => categories,
     :position => 0
   },
   {
-    :name => "Bags",
+    :name => "Torbalar",
     :taxonomy => categories,
-    :parent => "Categories",
+    :parent => "Kategoriler",
     :position => 1,
     :products => [
       products[:ror_tote],
@@ -47,9 +48,9 @@ taxons = [
     ]
   },
   {
-    :name => "Mugs",
+    :name => "Kupalar",
     :taxonomy => categories,
-    :parent => "Categories",
+    :parent => "Kategoriler",
     :position => 2,
     :products => [
       products[:ror_mug],
@@ -59,14 +60,14 @@ taxons = [
     ]
   },
   {
-    :name => "Clothing",
+    :name => "Giyim",
     :taxonomy => categories,
-    :parent => "Categories" 
+    :parent => "Kategoriler"
   },
   {
-    :name => "Shirts",
+    :name => "Gömlekler",
     :taxonomy => categories,
-    :parent => "Clothing",
+    :parent => "Giyim",
     :position => 0,
     :products => [
       products[:ror_jr_spaghetti],
@@ -74,9 +75,9 @@ taxons = [
     ]
   },
   {
-    :name => "T-Shirts",
+    :name => "Tişörtler",
     :taxonomy => categories,
-    :parent => "Clothing" ,
+    :parent => "Giyim" ,
     :products => [
       products[:ror_baseball_jersey],
       products[:ror_ringer],
@@ -88,13 +89,13 @@ taxons = [
     :position => 0
   },
   {
-    :name => "Brands",
+    :name => "Markalar",
     :taxonomy => brands
   },
   {
     :name => "Ruby",
     :taxonomy => brands,
-    :parent => "Brand",
+    :parent => "Markalar",
     :products => [
       products[:ruby_baseball_jersey]
     ]
@@ -102,7 +103,7 @@ taxons = [
   {
     :name => "Apache",
     :taxonomy => brands,
-    :parent => "Brand",
+    :parent => "Markalar",
     :products => [
       products[:apache_baseball_jersey]
     ]
@@ -110,7 +111,7 @@ taxons = [
   {
     :name => "Spree",
     :taxonomy => brands,
-    :parent => "Brand",
+    :parent => "Markalar",
     :products => [
       products[:spree_stein],
       products[:spree_mug],
@@ -124,7 +125,7 @@ taxons = [
   {
     :name => "Rails",
     :taxonomy => brands,
-    :parent => "Brand",
+    :parent => "Markalar",
     :products => [
       products[:ror_tote],
       products[:ror_bag],
