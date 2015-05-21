@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 version = File.read(File.expand_path("../../SPREE_VERSION", __FILE__)).strip
 
 Gem::Specification.new do |s|
-  s.name        = "spree_cmd"
+  s.name        = "spree_cmd_tr"
   s.version     = version
   s.authors     = ["Chris Mar"]
   s.email       = ["chris@spreecommerce.com"]
