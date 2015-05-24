@@ -2,7 +2,7 @@ require 'ffaker'
 require 'pathname'
 require 'spree/sample'
 
-namespace :spree_sample do
+namespace :spree_sample_tr do
   desc 'Loads sample data'
   task :load => :environment do
     if ARGV.include?("db:migrate")

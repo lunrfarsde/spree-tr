@@ -53,7 +53,7 @@ module SpreeCmd
       elsif options[:version]
         @spree_gem_options[:version] = options[:version]
       else
-        version = Gem.loaded_specs['spree_cmd'].version
+        version = Gem.loaded_specs['spree_cmd_tr'].version
         @spree_gem_options[:version] = version.to_s
       end
 
@@ -76,15 +76,12 @@ module SpreeCmd
       if options[:skip_install_data]
         @run_migrations = false
         @load_seed_data = false
-        @load_sample_data = false
       else
         @run_migrations = ask_with_default('Would you like to run the migrations?')
         if @run_migrations
           @load_seed_data = ask_with_default('Would you like to load the seed data?')
-          @load_sample_data = ask_with_default('Would you like to load the sample data?')
         else
           @load_seed_data = false
-          @load_sample_data = false
         end
       end
     end
@@ -92,7 +89,10 @@ module SpreeCmd
     def add_gems
       inside @app_path do
 
-        gem :spree, @spree_gem_options
+        gem :spree_tr, path: '~/spree_tr' #@spree_gem_options
+
+        gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'master'
+        gem 'spree_i18n', github: 'spree-contrib/spree_i18n', branch: 'master'
 
         if @install_default_gateways && @spree_gem_options[:branch]
           gem :spree_gateway, github: 'spree/spree_gateway', branch: @spree_gem_options[:branch]
@@ -106,7 +106,7 @@ module SpreeCmd
           gem :spree_auth_devise, github: 'spree/spree_auth_devise'
         end
 
-        run 'bundle install', :capture => true
+        run 'bundle install'
       end
     end
 
@@ -114,12 +114,14 @@ module SpreeCmd
       spree_options = []
       spree_options << "--migrate=#{@run_migrations}"
       spree_options << "--seed=#{@load_seed_data}"
-      spree_options << "--sample=#{@load_sample_data}"
+      spree_options << "--sample=false"
       spree_options << "--user_class=#{@user_class}"
       spree_options << "--auto_accept" if options[:auto_accept]
 
       inside @app_path do
         run "rails generate spree:install #{spree_options.join(' ')}", :verbose => false
+        run "rails generate spree_tr:install"
+        run "rails generate spree_i18n:install"
       end
     end
 
