@@ -25,7 +25,6 @@ products = {
 
 
 products.each do |key, name|
-  puts name
   products[key] = Spree::Product.find_by_name!(name)
 end
 
