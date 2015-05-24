@@ -76,12 +76,15 @@ module SpreeCmd
       if options[:skip_install_data]
         @run_migrations = false
         @load_seed_data = false
+        @load_sample_data = false
       else
         @run_migrations = ask_with_default('Would you like to run the migrations?')
         if @run_migrations
           @load_seed_data = ask_with_default('Would you like to load the seed data?')
+           @load_sample_data = ask_with_default('Would you like to load the sample data?')
         else
           @load_seed_data = false
+          @load_sample_data = false
         end
       end
     end
@@ -120,7 +123,7 @@ module SpreeCmd
 
       inside @app_path do
         run "rails generate spree:install #{spree_options.join(' ')}", :verbose => false
-        run "rails generate spree_tr:install"
+        run "rails generate spree_tr:install --sample=#{@load_sample_data}"
         run "rails generate spree_i18n:install"
       end
     end
