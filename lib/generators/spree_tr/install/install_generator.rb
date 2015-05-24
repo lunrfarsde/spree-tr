@@ -7,9 +7,9 @@ module SpreeTr
     end
 
     def load_sample_data
-      if @load_sample_data
+      if options[:sample]
         say_status :loading, "sample data"
-        quietly { rake 'spree_sample:load' }
+        rake 'spree_sample_tr:load'
       else
         say_status :skipping, "sample data (you can always run rake spree_sample:load)"
       end
