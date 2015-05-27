@@ -92,7 +92,7 @@ module SpreeCmd
     def add_gems
       inside @app_path do
 
-        gem :spree_tr, path: '~/spree_tr' #@spree_gem_options
+        gem :spree_tr, @spree_gem_options
 
         gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'master'
 
