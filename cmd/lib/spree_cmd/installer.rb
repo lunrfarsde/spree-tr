@@ -95,7 +95,6 @@ module SpreeCmd
         gem :spree_tr, path: '~/spree_tr' #@spree_gem_options
 
         gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'master'
-        gem 'spree_i18n', github: 'spree-contrib/spree_i18n', branch: 'master'
 
         if @install_default_gateways && @spree_gem_options[:branch]
           gem :spree_gateway, github: 'spree/spree_gateway', branch: @spree_gem_options[:branch]
@@ -124,7 +123,6 @@ module SpreeCmd
       inside @app_path do
         run "rails generate spree:install #{spree_options.join(' ')}", :verbose => false
         run "rails generate spree_tr:install --sample=#{@load_sample_data}"
-        run "rails generate spree_i18n:install"
       end
     end
 
