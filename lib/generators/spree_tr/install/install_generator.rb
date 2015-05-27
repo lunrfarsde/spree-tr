@@ -24,7 +24,7 @@ module SpreeTr
         say_status :loading, "sample data"
         rake 'spree_sample_tr:load'
       else
-        say_status :skipping, "sample data (you can always run rake spree_sample:load)"
+        say_status :skipping, "sample data (you can always run rake spree_sample_tr:load)"
       end
     end
   end
