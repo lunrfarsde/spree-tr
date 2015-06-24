@@ -30,9 +30,10 @@ group :test do
   gem 'rspec-rails', '~> 3.1.0'
   gem 'simplecov'
   gem 'webmock', '1.8.11'
-  gem 'poltergeist', '1.5.0'
+  gem 'poltergeist', '1.6.0'
   gem 'timecop'
   gem 'with_model'
+  gem 'mutant-rspec', '~> 0.7.9'
 end
 
 group :test, :development do

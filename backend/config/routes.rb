@@ -114,7 +114,6 @@ Spree::Core::Engine.add_routes do
 
     resource :general_settings do
       collection do
-        post :dismiss_alert
         post :clear_cache
       end
     end
@@ -124,9 +123,6 @@ Spree::Core::Engine.add_routes do
     resources :taxonomies do
       collection do
         post :update_positions
-      end
-      member do
-        get :get_children
       end
       resources :taxons
     end
