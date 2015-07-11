@@ -9,32 +9,32 @@ Usage:
 
 1. Clone the repo.
 
-```
-$ git clone https://github.com/lunrfarsde/spree_tr.git
-```
+	```
+	$ git clone https://github.com/lunrfarsde/spree_tr.git
+	```
 
-1. Build the gem.
+2. Build the gem.
 
-```
-$ gem build spree_tr.gemspec
-```
+	```
+	$ gem build spree_tr.gemspec
+	```
 
-1. Install the gem.
+3. Install the gem.
 
-```
-$ gem install spree_tr-<version>.gem
-```
+	```
+	$ gem install spree_tr-<version>.gem
+	```
 
-1. Create new rails project.
+4. Create new rails project.
 
-```
-$ rails new my-store
-```
+	```
+	$ rails new my-store
+	```
 
-1. Install spree_tr.
+5. Install spree_tr.
 
-```
-$ spree_tr install my-store
-```
+	```
+	$ spree_tr install my-store
+	```
 
 A gem will be released later.
