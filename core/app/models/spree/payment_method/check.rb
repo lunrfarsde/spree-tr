@@ -14,18 +14,30 @@ module Spree
       payment.state != 'void'
     end
 
-    def capture(*args)
-      ActiveMerchant::Billing::Response.new(true, "", {}, {})
+    def capture(*)
+      simulated_successful_billing_response
     end
 
-    def cancel(response); end
+    def cancel(*)
+      simulated_successful_billing_response
+    end
 
-    def void(*args)
-      ActiveMerchant::Billing::Response.new(true, "", {}, {})
+    def void(*)
+      simulated_successful_billing_response
     end
 
     def source_required?
       false
+    end
+
+    def credit(*)
+      simulated_successful_billing_response
+    end
+
+    private
+
+    def simulated_successful_billing_response
+      ActiveMerchant::Billing::Response.new(true, "", {}, {})
     end
   end
 end

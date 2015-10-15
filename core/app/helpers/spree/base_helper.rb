@@ -19,7 +19,7 @@ module Spree
     def display_price(product_or_variant)
       product_or_variant.
         price_in(current_currency).
-        display_price_including_vat_for(current_tax_zone).
+        display_price_including_vat_for(current_price_options).
         to_html
     end
 
@@ -95,6 +95,7 @@ module Spree
     def define_image_method(style)
       self.class.send :define_method, "#{style}_image" do |product, *options|
         options = options.first || {}
+        options[:alt] ||= product.name
         if product.images.empty?
           if !product.is_a?(Spree::Variant) && !product.variant_images.empty?
             create_product_image_tag(product.variant_images.first, product, options, style)

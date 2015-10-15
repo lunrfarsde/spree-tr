@@ -1,5 +1,5 @@
 Spree::Core::Engine.add_routes do
-  namespace :admin do
+  namespace :admin, path: Spree.admin_path do
     get '/search/users', to: "search#users", as: :search_users
     get '/search/products', to: "search#products", as: :search_products
 
@@ -105,7 +105,7 @@ Spree::Core::Engine.add_routes do
         resources :refunds, only: [:new, :create, :edit, :update]
       end
 
-      resources :reimbursements, only: [:create, :show, :edit, :update] do
+      resources :reimbursements, only: [:index, :create, :show, :edit, :update] do
         member do
           post :perform
         end
@@ -158,7 +158,11 @@ Spree::Core::Engine.add_routes do
     resources :tax_rates
 
     resources :trackers
-    resources :payment_methods
+    resources :payment_methods do
+      collection do
+        post :update_positions
+      end
+    end
     resources :roles
 
     resources :users do
@@ -173,5 +177,5 @@ Spree::Core::Engine.add_routes do
     end
   end
 
-  get '/admin', to: 'admin/root#index', as: :admin
+  get Spree.admin_path, to: 'admin/root#index', as: :admin
 end

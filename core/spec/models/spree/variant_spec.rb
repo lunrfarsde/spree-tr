@@ -441,7 +441,7 @@ describe Spree::Variant, :type => :model do
     it "updates a product" do
       variant.product.update_column(:updated_at, 1.day.ago)
       variant.touch
-      expect(variant.product.reload.updated_at).to be_within(3.seconds).of(Time.now)
+      expect(variant.product.reload.updated_at).to be_within(3.seconds).of(Time.current)
     end
 
     it "clears the in_stock cache key" do
@@ -518,6 +518,28 @@ describe Spree::Variant, :type => :model do
     it "return the dimension if the dimension parameters are different of zero" do
       dimension_expected = variant.width + variant.depth + variant.height
       expect(variant.dimension).to eq (dimension_expected)
+    end
+  end
+
+  context "#discontinue!" do
+    let(:variant) { create(:variant) }
+
+    it "sets the discontinued" do
+      variant.discontinue!
+      variant.reload
+      expect(variant.discontinued?).to be(true)
+    end
+  end
+
+  context "#discontinued?" do
+    let(:variant_live) { build(:variant) }
+    it "should be false" do
+      expect(variant_live.discontinued?).to be(false)
+    end
+
+    let(:variant_discontinued) { build(:variant, discontinue_on: Time.now - 1.day) }
+    it "should be true" do
+      expect(variant_discontinued.discontinued?).to be(true)
     end
   end
 end

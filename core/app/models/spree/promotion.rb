@@ -13,7 +13,8 @@ module Spree
     has_many :promotion_actions, autosave: true, dependent: :destroy
     alias_method :actions, :promotion_actions
 
-    has_and_belongs_to_many :orders, join_table: 'spree_orders_promotions'
+    has_many :order_promotions, class_name: 'Spree::OrderPromotion'
+    has_many :orders, through: :order_promotions, class_name: 'Spree::Order'
 
     accepts_nested_attributes_for :promotion_actions, :promotion_rules
 
@@ -22,27 +23,31 @@ module Spree
     validates :name, presence: true
     validates :path, uniqueness: { allow_blank: true }
     validates :usage_limit, numericality: { greater_than: 0, allow_nil: true }
-    validates :description, length: { maximum: 255 }
+    validates :description, length: { maximum: 255 }, allow_blank: true
 
     before_save :normalize_blank_values
 
     scope :coupons, ->{ where("#{table_name}.code IS NOT NULL") }
+    scope :applied, lambda {
+      joins(<<-SQL).uniq
+        INNER JOIN spree_order_promotions
+        ON spree_order_promotions.promotion_id = #{table_name}.id
+      SQL
+    }
 
-    order_join_table = reflect_on_association(:orders).join_table
-
-    scope :applied, -> { joins("INNER JOIN #{order_join_table} ON #{order_join_table}.promotion_id = #{table_name}.id").uniq }
+    self.whitelisted_ransackable_attributes = ['path', 'promotion_category_id', 'code']
 
     def self.advertised
       where(advertise: true)
     end
 
     def self.with_coupon_code(coupon_code)
-      where("lower(#{self.table_name}.code) = ?", coupon_code.strip.downcase).first
+      where("lower(#{table_name}.code) = ?", coupon_code.strip.downcase).first
     end
 
     def self.active
-      where('spree_promotions.starts_at IS NULL OR spree_promotions.starts_at < ?', Time.now).
-        where('spree_promotions.expires_at IS NULL OR spree_promotions.expires_at > ?', Time.now)
+      where('spree_promotions.starts_at IS NULL OR spree_promotions.starts_at < ?', Time.current).
+        where('spree_promotions.expires_at IS NULL OR spree_promotions.expires_at > ?', Time.current)
     end
 
     def self.order_activatable?(order)
@@ -50,7 +55,7 @@ module Spree
     end
 
     def expired?
-      !!(starts_at && Time.now < starts_at || expires_at && Time.now > expires_at)
+      !!(starts_at && Time.current < starts_at || expires_at && Time.current > expires_at)
     end
 
     def activate(payload)
@@ -75,7 +80,7 @@ module Spree
         self.save
       end
 
-      return action_taken
+      action_taken
     end
 
     # called anytime order.update! happens
@@ -126,7 +131,7 @@ module Spree
 
     def adjusted_credits_count(promotable)
       adjustments = promotable.is_a?(Order) ? promotable.all_adjustments : promotable.adjustments
-      credits_count - adjustments.promotion.where(:source_id => actions.pluck(:id)).count
+      credits_count - adjustments.promotion.where(source_id: actions.pluck(:id)).size
     end
 
     def credits

@@ -12,6 +12,8 @@ module Spree
     extend DisplayMoney
     money_methods :amount, :price
 
+    self.whitelisted_ransackable_attributes = ['amount']
+
     def money
       Spree::Money.new(amount || 0, { currency: currency })
     end
@@ -24,12 +26,13 @@ module Spree
       self[:amount] = Spree::LocalizedNumber.parse(price)
     end
 
-    def price_including_vat_for(zone)
-      gross_amount(price, zone, variant.tax_category)
+    def price_including_vat_for(price_options)
+      options = price_options.merge(tax_category: variant.tax_category)
+      gross_amount(price, options)
     end
 
-    def display_price_including_vat_for(zone)
-      Spree::Money.new(price_including_vat_for(zone), currency: currency)
+    def display_price_including_vat_for(price_options)
+      Spree::Money.new(price_including_vat_for(price_options), currency: currency)
     end
 
     # Remove variant default_scope `deleted_at: nil`

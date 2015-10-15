@@ -1,6 +1,7 @@
 turkey = Spree::Country.find_by_name!("Turkey")
 ankara = Spree::State.find_by_name!("Ankara")
 
+
 # Billing address
 Spree::Address.create!(
   firstname: "Mehmet",

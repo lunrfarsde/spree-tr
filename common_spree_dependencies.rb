@@ -24,16 +24,16 @@ group :test do
   gem 'email_spec'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'launchy'
-  gem 'rspec-activemodel-mocks'
+  gem 'rspec-activemodel-mocks', '~> 1.0.2'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
-  gem 'rspec-rails', '~> 3.1.0'
+  gem 'rspec-rails', '~> 3.3'
   gem 'simplecov'
   gem 'webmock', '1.8.11'
   gem 'poltergeist', '1.6.0'
   gem 'timecop'
   gem 'with_model'
-  gem 'mutant-rspec', '~> 0.7.9'
+  gem 'mutant-rspec', '~> 0.8.0'
 end
 
 group :test, :development do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Spree::LineItem, :type => :model do
+describe Spree::LineItem, type: :model do
   let(:order) { create :order_with_line_items, line_items_count: 1 }
   let(:line_item) { order.line_items.first }
 
@@ -13,17 +13,19 @@ describe Spree::LineItem, :type => :model do
     end
   end
 
-  context '#destroy' do
-    it "fetches deleted products" do
-      line_item.product.destroy
+  context "#discontinued" do
+    it "fetches discontinued products" do
+      line_item.product.discontinue!
       expect(line_item.reload.product).to be_a Spree::Product
     end
 
-    it "fetches deleted variants" do
-      line_item.variant.destroy
+    it "fetches discontinued variants" do
+      line_item.variant.discontinue!
       expect(line_item.reload.variant).to be_a Spree::Variant
     end
+  end
 
+  context "#destroy" do
     it "returns inventory when a line item is destroyed" do
       expect_any_instance_of(Spree::OrderInventory).to receive(:verify)
       line_item.destroy
@@ -67,7 +69,7 @@ describe Spree::LineItem, :type => :model do
     let(:variant) { create(:variant) }
 
     before do
-      create(:tax_rate, :zone => order.tax_zone, :tax_category => variant.tax_category)
+      create(:tax_rate, zone: order.tax_zone, tax_category: variant.tax_category)
     end
 
     context "when order has a tax zone" do
@@ -135,7 +137,7 @@ describe Spree::LineItem, :type => :model do
     it "returns the amount minus any discounts" do
       line_item.price = 10
       line_item.quantity = 2
-      line_item.promo_total = -5
+      line_item.taxable_adjustment_total = -5
       expect(line_item.discounted_amount).to eq(15)
     end
   end
@@ -161,7 +163,6 @@ describe Spree::LineItem, :type => :model do
     it "returns a Spree::Money representing the total for this line item" do
       expect(line_item.money.to_s).to eq("$7.00")
     end
-
   end
 
   describe '#single_money' do

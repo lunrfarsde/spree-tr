@@ -1,8 +1,11 @@
 module Spree
   class LineItem < Spree::Base
     before_validation :invalid_quantity_check
-    belongs_to :order, class_name: "Spree::Order", inverse_of: :line_items, touch: true
-    belongs_to :variant, class_name: "Spree::Variant", inverse_of: :line_items
+
+    with_options inverse_of: :line_items do
+      belongs_to :order, class_name: "Spree::Order", touch: true
+      belongs_to :variant, class_name: "Spree::Variant"
+    end
     belongs_to :tax_category, class_name: "Spree::TaxCategory"
 
     has_one :product, through: :variant
@@ -14,15 +17,16 @@ module Spree
     before_validation :copy_tax_category
 
     validates :variant, presence: true
-    validates :quantity, numericality: {
-      only_integer: true,
-      greater_than: -1,
-      message: Spree.t('validation.must_be_int')
-    }
+    validates :quantity, numericality:
+                        {
+                          only_integer: true,
+                          greater_than: -1,
+                          message: Spree.t('validation.must_be_int')
+                        }
     validates :price, numericality: true
     validates_with Stock::AvailabilityValidator
-
     validate :ensure_proper_currency
+
     before_destroy :update_inventory
     before_destroy :destroy_inventory_units
 
@@ -30,11 +34,15 @@ module Spree
     after_save :update_adjustments
 
     after_create :update_tax_charge
+    # after_create :update_adjustment_total
 
-    delegate :name, :description, :sku, :should_track_inventory?, to: :variant
+    delegate :name, :description, :sku, :should_track_inventory?, :product, to: :variant
     delegate :tax_zone, to: :order
 
     attr_accessor :target_shipment
+
+    self.whitelisted_ransackable_associations = ['variant']
+    self.whitelisted_ransackable_attributes = ['variant_id']
 
     def copy_price
       if variant
@@ -45,7 +53,7 @@ module Spree
     end
 
     def update_price
-      self.price = variant.price_including_vat_for(tax_zone)
+      self.price = variant.price_including_vat_for(tax_zone: tax_zone)
     end
 
     def copy_tax_category
@@ -63,16 +71,20 @@ module Spree
     def amount
       price * quantity
     end
+
     alias subtotal amount
 
-    def discounted_amount
-      amount + promo_total
+    def taxable_amount
+      amount + taxable_adjustment_total
     end
+
     alias discounted_money display_discounted_amount
+    alias_method :discounted_amount, :taxable_amount
 
     def final_amount
       amount + adjustment_total
     end
+
     alias total final_amount
     alias money display_total
 
@@ -88,65 +100,59 @@ module Spree
       !sufficient_stock?
     end
 
-    # Remove product default_scope `deleted_at: nil`
-    def product
-      variant.product
-    end
-
-    # Remove variant default_scope `deleted_at: nil`
-    def variant
-      Spree::Variant.unscoped { super }
-    end
-
-    def options=(options={})
+    def options=(options = {})
       return unless options.present?
 
       opts = options.dup # we will be deleting from the hash, so leave the caller's copy intact
 
       currency = opts.delete(:currency) || order.try(:currency)
 
-      if currency
-        self.currency = currency
-        self.price    = variant.price_in(currency).amount +
-                        variant.price_modifier_amount_in(currency, opts)
-      else
-        self.price    = variant.price +
-                        variant.price_modifier_amount(opts)
-      end
-
-      self.assign_attributes opts
+      update_price_from_modifier(currency, opts)
+      assign_attributes opts
     end
 
     private
-      def update_inventory
-        if (changed? || target_shipment.present?) && self.order.has_checkout_step?("delivery")
-          Spree::OrderInventory.new(self.order, self).verify(target_shipment)
-        end
-      end
 
-      def destroy_inventory_units
-        inventory_units.destroy_all
+    def update_price_from_modifier(currency, opts)
+      if currency
+        self.currency = currency
+        self.price = variant.price_in(currency).amount +
+          variant.price_modifier_amount_in(currency, opts)
+      else
+        self.price = variant.price +
+          variant.price_modifier_amount(opts)
       end
+    end
 
-      def update_adjustments
-        if quantity_changed?
-          update_tax_charge # Called to ensure pre_tax_amount is updated.
-          recalculate_adjustments
-        end
+    def update_inventory
+      if (changed? || target_shipment.present?) && order.has_checkout_step?("delivery")
+        Spree::OrderInventory.new(order, self).verify(target_shipment)
       end
+    end
 
-      def recalculate_adjustments
-        Adjustable::AdjustmentsUpdater.update(self)
-      end
+    def destroy_inventory_units
+      inventory_units.destroy_all
+    end
 
-      def update_tax_charge
-        Spree::TaxRate.adjust(order, [self])
+    def update_adjustments
+      if quantity_changed?
+        recalculate_adjustments
+        update_tax_charge # Called to ensure pre_tax_amount is updated.
       end
+    end
 
-      def ensure_proper_currency
-        unless currency == order.currency
-          errors.add(:currency, :must_match_order_currency)
-        end
+    def recalculate_adjustments
+      Adjustable::AdjustmentsUpdater.update(self)
+    end
+
+    def update_tax_charge
+      Spree::TaxRate.adjust(order, [self])
+    end
+
+    def ensure_proper_currency
+      unless currency == order.currency
+        errors.add(:currency, :must_match_order_currency)
       end
+    end
   end
 end

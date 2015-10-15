@@ -380,37 +380,6 @@ describe Spree::Order, :type => :model do
       end
     end
 
-    context "to payment" do
-      before do
-        @default_credit_card = FactoryGirl.create(:credit_card)
-        order.user = mock_model(Spree::LegacyUser, default_credit_card: @default_credit_card, email: 'spree@example.org')
-
-        allow(order).to receive_messages(payment_required?: true)
-        allow(order).to receive_messages(total: 20.00)
-        order.state = 'delivery'
-        order.save!
-      end
-
-      it "assigns the user's default credit card" do
-        order.next!
-        order.reload
-
-        expect(order.state).to eq 'payment'
-        expect(order.payments.count).to eq 1
-        expect(order.payments.first.amount).to eq 20.00
-        expect(order.payments.first.source).to eq @default_credit_card
-      end
-
-      it "only generates payment if payment required" do
-        allow(order).to receive_messages(payment_required?: false)
-        order.next!
-        order.reload
-
-        expect(order.state).to eq 'complete'
-        expect(order.payments.count).to eq 0
-      end
-    end
-
     context "from payment" do
       before do
         order.state = 'payment'
@@ -581,7 +550,7 @@ describe Spree::Order, :type => :model do
     it "does not attempt to process payments" do
       allow(order).to receive_message_chain(:line_items, :present?) { true }
       allow(order).to receive(:ensure_line_items_are_in_stock) { true }
-      allow(order).to receive(:ensure_line_item_variants_are_not_deleted) { true }
+      allow(order).to receive(:ensure_line_item_variants_are_not_discontinued) { true }
       expect(order).not_to receive(:payment_required?)
       expect(order).not_to receive(:process_payments!)
       order.next!
@@ -723,7 +692,7 @@ describe Spree::Order, :type => :model do
 
         expect {
           order.update_from_params(params, permitted_params)
-        }.to raise_error
+        }.to raise_error(Spree.t(:invalid_credit_card))
       end
     end
 
